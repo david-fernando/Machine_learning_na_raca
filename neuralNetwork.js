@@ -1,6 +1,6 @@
 let input = [1, 1];
 let weight = [Math.random(), Math.random()];
-let outputExpected = [1.0];
+let outputExpected = [1];
 const learningRate = 0.50;
 let summation = [];
 let output = [];
@@ -25,10 +25,10 @@ function derivedFromSigmoid(sigmoid, summation){
 	output = sigmoid.map((derived) => parseInt(1 - sigmoid * summation));
 }
 function messages(){
-	console.log(`Time ${time}\nOutput:${output}\nSomatória:${summation}\nOutput expected:${outputExpected}`)
+	console.log(`Time ${time}\nOutput:${output}\nOutput expected:${outputExpected}`)
 }
 function training(){
-	while(time < timeMaximum || parseInt(output) != outputExpected){
+	while(parseInt(output) != outputExpected || time < timeMaximum){
 		foreword(input, weight);
 		backpropagation(weight, input, learningRate);
 		sigmoidActivation(summation);
