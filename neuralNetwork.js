@@ -1,5 +1,5 @@
 let input = [20, 36, 40, 30, 0];
-let weight = [Math.random(), Math.random()];
+let weight = [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()];
 let outputExpected = [4];
 const learningRate = 0.50;
 let summation = [];
@@ -49,8 +49,8 @@ function messages(){
 	console.log(`Time ${time}\nOutput:${denormalizedExpectedOutput}\nSummation:${summation}\nOutput expected:${outputExpected}`)
 }
 function training(){
+	normalizeData(input, outputExpected);
 	while(parseInt(output) != normalizedOutput || time < timeMaximum){
-		normalizeData(input, outputExpected);
 		foreword(weight);
 		backpropagation(weight, normalizedInput, learningRate);
 		sigmoidActivation(summation);
