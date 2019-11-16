@@ -13,7 +13,7 @@ let message;
 let time = 1;
 const timeMaximum = 10;
 let sigmoid = [];
-function foreword(normalizedInput, weight){
+function foreword(weight){
 	summation = normalizedInput.reduce((normalizedInput, index) =>+(normalizedInput * weight[index]));
 }
 function backpropagation(weights, input, learningRate){
@@ -51,7 +51,7 @@ function messages(){
 function training(){
 	while(parseInt(output) != normalizedOutput || time < timeMaximum){
 		normalizeData(input, outputExpected);
-		foreword(normalizedInput, weight);
+		foreword(weight);
 		backpropagation(weight, normalizedInput, learningRate);
 		sigmoidActivation(summation);
 		denormalizeData(input, normalizedInput, outputExpected, output);
