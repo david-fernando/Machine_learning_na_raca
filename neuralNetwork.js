@@ -2,7 +2,6 @@ let input = [20, 36, 40, 30, 0];
 let hiddenWeight = [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()];
 let weight = [Math.random(), Math.random(), Math.random(), Math.random()];
 let hiddenNeurons = [0, 0, 0, 0];
-let hiddenValues = [];
 let outputExpected = [4, 4, 5];
 const learningRate = 0.50;
 let summation = [];
