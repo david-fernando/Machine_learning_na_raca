@@ -1,6 +1,6 @@
 let input = [20, 36, 40, 30, 0];
 let weight = [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()];
-let outputExpected = [4];
+let outputExpected = [4, 4, 5];
 const learningRate = 0.50;
 let summation = [];
 let output = [];
@@ -11,10 +11,13 @@ let denormalizedOutput;
 let denormalizedExpectedOutput;
 let message;
 let time = 1;
-const timeMaximum = 10;
+const timeMaximum = 100;
 let sigmoid = [];
+let outputsEquals;
 function foreword(weight){
-	summation = normalizedInput.reduce((normalizedInput, index) =>+(normalizedInput * weight[index]));
+	summation = normalizedInput.reduce((normalizedInput, index) =>{
+		return outputExpected.map((normalizedInput)=>{return +(normalizedInput * weight[index])}
+			)});
 }
 function backpropagation(weights, input, learningRate){
 	weight = weight.map((weight, index) =>weights[index] * learningRate * input[index]);
@@ -38,25 +41,33 @@ function stepActivation(summations){
 	output = summation.map((summation, outputs, index) => outputs = summations[index] <= 0 ? outputs = -1: outputs = 1); 
 }
 function sigmoidActivation(summation){
-	sigmoid = outputExpected.map((sigmoid) => 1 /( 1 + Math.pow(Math.E, summation)));
+	sigmoid = outputExpected.map((sigmoid, index) => 1 /( 1 + Math.pow(Math.E, summation[index])));
 	derivedFromSigmoid(sigmoid, summation);
 }
 function derivedFromSigmoid(sigmoid, summation){
-	output = sigmoid.map((derived) => parseInt(1 - sigmoid * summation));
-	return output;
+	output = sigmoid.map((derived, index) => parseInt(1 - sigmoid[index] * summation[index]));
+	return parseInt(output);
 }
 function messages(){
-	console.log(`Time ${time}\nOutput:${denormalizedExpectedOutput}\nSummation:${summation}\nOutput expected:${outputExpected}`)
+	console.log(`Time ${time}\nOutput:${denormalizedExpectedOutput}\nOutput expected:${outputExpected}`)
+}
+let outputComparison = (output, normalizedOutput)=>{
+	outputsEquals  = output.every((outputs, index)=>outputs == normalizedOutput[index]);
+	return outputsEquals;
 }
 function training(){
 	normalizeData(input, outputExpected);
-	while(parseInt(output) != normalizedOutput || time < timeMaximum){
+	while(time < timeMaximum){
 		foreword(weight);
 		backpropagation(weight, normalizedInput, learningRate);
 		sigmoidActivation(summation);
 		denormalizeData(input, normalizedInput, outputExpected, output);
+		outputComparison(output, normalizedOutput);
 		messages();
 		time += 1 
+		if(outputsEquals == true){
+			break;
+		}
 	}
 }
 training();
