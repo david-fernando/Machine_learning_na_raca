@@ -71,7 +71,7 @@ function training(){
 	normalizeData(input, outputExpected);
 	while(epochCount < epoch){
 		foreword(weight, hiddenWeight);
-		backpropagation(hiddenWeight,weight, normalizedInput, hiddenNeurons, learningRate);
+		backpropagation(hiddenWeight, weight, normalizedInput, hiddenNeurons, learningRate);
 		sigmoidActivation(summation);
 		denormalizeData(input, normalizedInput, outputExpected, output);
 		outputComparison(output, normalizedOutput);
