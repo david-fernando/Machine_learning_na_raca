@@ -30,7 +30,7 @@ function hiddenLayer(hiddenWeight){
 		}
 	)});
 }
-function backpropagation(hiddenWeights,weights, input, hiddenNeurons, learningRate){
+function backpropagation(hiddenWeights, weights, input, hiddenNeurons, learningRate){
 	hiddenWeight = hiddenWeight.map((hiddenWeight, index) =>hiddenWeights[index] * learningRate * input[index]);
 	weight = weight.map((weight, index) =>weights[index] * learningRate * hiddenNeurons[index]);
 }
