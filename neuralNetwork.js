@@ -60,7 +60,7 @@ function stepActivation(summations){
 	output = summation.map((summation, outputs, index) => outputs = summations[index] <= 0 ? outputs = -1: outputs = 1); 
 }
 function sigmoidActivation(summation){
-	sigmoid = outputExpected.map((sigmoid, index) => 1 /( 1 + Math.E ** summation[index]));
+	sigmoid = outputExpected.map((sigmoid, index) => 1 /( 1 + Math.exp(summation[index])));
 	derivedFromSigmoid(sigmoid, summation);
 }
 function derivedFromSigmoid(sigmoid, summation){
