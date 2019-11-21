@@ -16,6 +16,7 @@ let epochCount = 1;
 const epoch = 100;
 let sigmoid = [];
 let outputsEquals;
+let activationFunction;
 function measureArrayOfWeights(){
 	hiddenWeight = input.map((inputs)=>{
 		return hiddenNeurons.map((arrayOfHiddenWeights) => Math.random())
@@ -56,16 +57,18 @@ function denormalizeData(input, normalizedInput,outputExpected, output){
 	denormalizedOutput = outputExpected.map((outputDenormalization, index) => outputExpected[index] * output[index]);
 	denormalizedExpectedOutput = output.map((expectedOutputDenormalization, index) => outputExpected[index] * output[index]);
 }
-function stepActivation(summations){
-	output = summation.map((summation, outputs, index) => outputs = summations[index] <= 0 ? outputs = -1: outputs = 1); 
-}
-function sigmoidActivation(summation){
-	sigmoid = outputExpected.map((sigmoid, index) => 1 /( 1 + Math.exp(summation[index])));
-	derivedFromSigmoid(sigmoid, summation);
-}
-function derivedFromSigmoid(sigmoid, summation){
-	output = sigmoid.map((derived, index) => parseInt(1 - sigmoid[index] * summation[index]));
-	return parseInt(output);
+activationFunction = {
+	step: function(summations){
+		output = summation.map((summation, outputs, index) => outputs = summations[index] <= 0 ? outputs = -1: outputs = 1);
+	},
+	sigmoid: function(summations){
+		sigmoid = outputExpected.map((sigmoid, index) => 1 /( 1 + Math.exp(summation[index])));
+		this.derivedFromSigmoid(sigmoid, summation);
+	},
+	derivedFromSigmoid: function(sigmoid, summation){
+		output = sigmoid.map((derived, index) => parseInt(1 - sigmoid[index] * summation[index]));
+		return parseInt(output);
+	}
 }
 function messages(){
 	console.log(`Epoch ${epochCount}\nOutput:${denormalizedExpectedOutput}\nOutput expected:${outputExpected}`)
@@ -77,7 +80,7 @@ let outputComparison = (output, normalizedOutput)=>{
 function predict(inputs){
 	normalizeData(inputs, outputExpected);
 	foreword(weight, hiddenWeight);
-	sigmoidActivation(summation);
+	activationFunction.sigmoid(summation);
 	denormalizeData(inputs, normalizedInput, outputExpected, output);
 	console.log(`===================\nInput:${inputs}\nPredict:${denormalizedOutput}`);
 }
@@ -87,7 +90,7 @@ function training(){
 	while(epochCount < epoch){
 		foreword(weight, hiddenWeight);
 		backpropagation(hiddenWeight,weight, normalizedInput, hiddenNeurons, learningRate);
-		sigmoidActivation(summation);
+		activationFunction.sigmoid(summation);
 		denormalizeData(input, normalizedInput, outputExpected, output);
 		outputComparison(output, normalizedOutput);
 		messages();
